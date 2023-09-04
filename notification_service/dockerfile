@@ -1,0 +1,17 @@
+FROM node
+
+WORKDIR /developer/nodejs/noti
+
+ENV NODE_ENV = production
+
+COPY . .
+
+ENV PORT=3000
+
+RUN npm ci
+
+Run cd src && npx sequelize db:create
+Run cd src && npx sequelize db:migrate
+
+
+CMD ["npm","run","dev"]

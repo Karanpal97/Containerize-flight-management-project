@@ -1,0 +1,17 @@
+FROM node
+
+WORKDIR /developer/nodejs/flightsearch
+
+ENV NODE_ENV = production
+
+COPY . .
+
+RUN npm ci
+
+ENV PORT 3001
+
+Run cd src && npx sequelize db:create
+Run cd src && npx sequelize db:migrate
+
+CMD ["npm","run","dev"]
+
