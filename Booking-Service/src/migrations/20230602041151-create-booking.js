@@ -1,7 +1,7 @@
 'use strict';
 /** @type {import('sequelize-cli').Migration} */
 const {Enum}=require('../utils/common');
-const {  BOOKED,  CANCELLED , PENDING, INITIATED }=Enum.Booking_Status;
+const {  BOOKED,  CANCELLED , PENDING, INITIATED }=Enum.BOOKING_STATUS;
 console.log(CANCELLED)
 module.exports = {
   async up(queryInterface, Sequelize) {
