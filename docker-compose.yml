@@ -1,46 +1,67 @@
 version: "3"
 networks:
- micro-net:
-   driver: bridge
+  micro-net:
+    driver: bridge
 volumes:
   api-gateways-node-modules:
   Booking-Service-node-modules:
   Notification-node-modules:
   Flight-Search-node-modules:
-services: 
- auth_service:
-  build: ./Auth_service
-  networks:
-   - micro-net
-  ports:
-   - "3006-3006"
-  volumes:
-   - ./Auth_service:/developer/nodejs/authservice
-   - api-gateways-node-modules:/developer/nodejs/authservice/node_modules
- booking-service:
-  build: ./Booking-Service
-  networks:
-   - micro-net
-  ports:
-   - "4000-4000"
-  volumes:
-   - ./Booking-Service:/developer/nodejs/booking
-   - Booking-Service-node-modules:/developer/nodejs/booking/node_modules
- notification-service:
-  build: ./notification_service
-  networks:
-   - micro-net
-  ports:
-   - "3000-3000"
-  volumes:
-   - ./notification_service:/developer/nodejs/noti
-   - Notification-node-modules:/developer/nodejs/noti/node_modules
- flight-search:
-  build: ./flight-Search
-  networks:
-   - micro-net
-  ports:
-   - "3001-3001"
-  volumes:
-   - ./flight-Search:/developer/nodejs/flightsearch
-   - Flight-Search-node-modules:/developer/nodejs/flightsearch/node_modules
+services:
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"   
+      - "15672:15672"
+    networks:
+      - micro-net
+
+  auth_service:
+    build: ./Auth_service
+    depends_on:
+      - rabbitmq
+    networks:
+      - micro-net
+    ports:
+      - "3006:3006"
+    volumes:
+      - ./Auth_service:/developer/nodejs/authservice
+      - api-gateways-node-modules:/developer/nodejs/authservice/node_modules
+  booking-service:
+    build: ./Booking-Service
+    depends_on:
+      - rabbitmq
+    networks:
+      - micro-net
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./Booking-Service:/developer/nodejs/booking
+      - Booking-Service-node-modules:/developer/nodejs/booking/node_modules
+  notification-service:
+    build: ./notification_service
+    depends_on:
+      - rabbitmq
+    networks:
+      - micro-net
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./notification_service:/developer/nodejs/noti
+      - Notification-node-modules:/developer/nodejs/noti/node_modules
+    env_file:              
+      - ./notification_service/.env
+
+  flight-search:
+    build: ./flight-Search
+    depends_on:
+      - rabbitmq
+    networks:
+      - micro-net
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./flight-Search:/developer/nodejs/flightsearch
+      - Flight-Search-node-modules:/developer/nodejs/flightsearch/node_modules

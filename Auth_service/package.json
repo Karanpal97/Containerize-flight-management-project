@@ -4,7 +4,8 @@
   "description": "A basic started boilerplate project for node",
   "main": "index.js",
   "scripts": {
-    "dev": "npx nodemon src/index.js"
+    "dev": "npx nodemon src/index.js",
+    "init-db": "cd src && npx sequelize db:create && npx sequelize db:migrate"
   },
   "author": "Karan",
   "license": "ISC",

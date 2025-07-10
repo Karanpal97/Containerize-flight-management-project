@@ -1,11 +1,12 @@
 const amqplib=require('amqplib');
-
+const { ServerConfig} = require('../config')
 
 let connection,channel;
 
 async function connectQueue(){
    try{
-        connection=await amqplib.connect("amqp://localhost");
+        const rabbitMQURL = process.env.RABBIT_MQ_SERVICE;
+        connection = await amqplib.connect(rabbitMQURL);
         channel=await connection.createChannel()
        await channel.assertQueue("noti-queue")}
       catch(error){

@@ -2,7 +2,7 @@ FROM node
 
 WORKDIR /developer/nodejs/authservice
 
-ENV NODE_ENV = production
+ENV NODE_ENV=development
 
 COPY . .
 
@@ -10,8 +10,8 @@ RUN npm ci
 # apt-get update && apt-get install -y git // for intaling something
 # RUN git cline link the repo link
 
-Run cd src && npx sequelize db:create
-Run cd src && npx sequelize db:migrate
+# Run cd src && npx sequelize db:create
+# Run cd src && npx sequelize db:migrate
 
 ENV PORT 3006
 
