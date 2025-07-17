@@ -1,0 +1,55 @@
+services:
+  - type: web
+    name: auth-service
+    env: docker
+    dockerContext: ./Auth_service
+    dockerfilePath: ./Auth_service/Dockerfile
+    plan: free
+    autoDeploy: true
+    region: oregon
+    ports:
+      - 3006
+
+  - type: web
+    name: booking-service
+    env: docker
+    dockerContext: ./Booking-Service
+    dockerfilePath: ./Booking-Service/Dockerfile
+    plan: free
+    autoDeploy: true
+    region: oregon
+    ports:
+      - 4000
+
+  - type: web
+    name: notification-service
+    env: docker
+    dockerContext: ./notification_service
+    dockerfilePath: ./notification_service/Dockerfile
+    plan: free
+    autoDeploy: true
+    region: oregon
+    envVars:
+      - key: RABBITMQ_URL
+        value: amqp://rabbitmq:5672
+    ports:
+      - 3000
+
+  - type: web
+    name: flight-search
+    env: docker
+    dockerContext: ./flight-Search
+    dockerfilePath: ./flight-Search/Dockerfile
+    plan: free
+    autoDeploy: true
+    region: oregon
+    ports:
+      - 3001
+
+  - type: worker
+    name: rabbitmq
+    env: docker
+    dockerfilePath: ./Dockerfile.rabbitmq
+    plan: free
+    autoDeploy: true
+    region: oregon
