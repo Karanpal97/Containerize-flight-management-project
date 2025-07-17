@@ -9,7 +9,13 @@ services:
     dockerfilePath: ./Auth_service/Dockerfile
     envVars:
       - key: PORT
-        value: 3006
+      - key: JWT_SECRET_KEY
+      - key: EXPIRES_IN
+      - key: NODE_ENV
+      - key: DB_HOST
+      - key: DB_USER
+      - key: DB_PASSWORD
+      - key: DB_NAME
 
   - type: web
     name: booking_service
@@ -21,7 +27,14 @@ services:
     dockerfilePath: ./Booking-Service/Dockerfile
     envVars:
       - key: PORT
-        value: 4000
+      - key: FLIGHT_SERVICE
+      - key: USER_SERVICE
+      - key: RABBIT_MQ_SERVICE
+      - key: NODE_ENV
+      - key: DB_HOST
+      - key: DB_USER
+      - key: DB_PASSWORD
+      - key: DB_NAME
 
   - type: web
     name: delivery_service
@@ -33,7 +46,13 @@ services:
     dockerfilePath: ./notification_service/Dockerfile
     envVars:
       - key: PORT
-        value: 3000
+      - key: GMAIL_PASSWORD
+      - key: GMAIL_EMAIL
+      - key: RABBIT_MQ_SERVICE
+      - key: DB_HOST
+      - key: DB_USER
+      - key: DB_PASSWORD
+      - key: DB_NAME
 
   - type: web
     name: flight_search
@@ -45,4 +64,7 @@ services:
     dockerfilePath: ./flight-Search/Dockerfile
     envVars:
       - key: PORT
-        value: 3001
+      - key: DB_HOST
+      - key: DB_USER
+      - key: DB_PASSWORD
+      - key: DB_NAME
