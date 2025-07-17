@@ -5,8 +5,8 @@ services:
     plan: free
     region: oregon
     autoDeploy: true
-    buildCommand: ""
-    startCommand: "npm start"
+    dockerContext: ./Auth_service
+    dockerfilePath: ./Auth_service/Dockerfile
     envVars:
       - key: PORT
         value: 8000
@@ -17,8 +17,8 @@ services:
     plan: free
     region: oregon
     autoDeploy: true
-    buildCommand: ""
-    startCommand: "npm start"
+    dockerContext: ./Booking-Service
+    dockerfilePath: ./Booking-Service/Dockerfile
     envVars:
       - key: PORT
         value: 8001
@@ -29,11 +29,13 @@ services:
     plan: free
     region: oregon
     autoDeploy: true
-    buildCommand: ""
-    startCommand: "npm start"
+    dockerContext: ./notification_service
+    dockerfilePath: ./notification_service/Dockerfile
     envVars:
       - key: PORT
         value: 8002
+      - key: RABBITMQ_URL
+        value: amqp://rabbitmq:5672
 
   - type: web
     name: flight_search
@@ -41,8 +43,8 @@ services:
     plan: free
     region: oregon
     autoDeploy: true
-    buildCommand: ""
-    startCommand: "npm start"
+    dockerContext: ./flight-Search
+    dockerfilePath: ./flight-Search/Dockerfile
     envVars:
       - key: PORT
         value: 8003
