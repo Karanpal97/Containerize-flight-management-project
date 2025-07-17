@@ -7,8 +7,6 @@ services:
     plan: free
     autoDeploy: true
     region: oregon
-    ports:
-      - 3006
 
   - type: web
     name: booking-service
@@ -18,8 +16,6 @@ services:
     plan: free
     autoDeploy: true
     region: oregon
-    ports:
-      - 4000
 
   - type: web
     name: notification-service
@@ -32,8 +28,6 @@ services:
     envVars:
       - key: RABBITMQ_URL
         value: amqp://rabbitmq:5672
-    ports:
-      - 3000
 
   - type: web
     name: flight-search
@@ -43,13 +37,11 @@ services:
     plan: free
     autoDeploy: true
     region: oregon
-    ports:
-      - 3001
 
   - type: worker
     name: rabbitmq
     env: docker
-    dockerfilePath: ./Dockerfile.rabbitmq
+    image: rabbitmq:3-management
     plan: free
     autoDeploy: true
     region: oregon
