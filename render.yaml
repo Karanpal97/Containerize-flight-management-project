@@ -9,7 +9,7 @@ services:
     dockerfilePath: ./Auth_service/Dockerfile
     envVars:
       - key: PORT
-        value: 8000
+        value: 3006
 
   - type: web
     name: booking_service
@@ -21,7 +21,7 @@ services:
     dockerfilePath: ./Booking-Service/Dockerfile
     envVars:
       - key: PORT
-        value: 8001
+        value: 4000
 
   - type: web
     name: delivery_service
@@ -33,9 +33,7 @@ services:
     dockerfilePath: ./notification_service/Dockerfile
     envVars:
       - key: PORT
-        value: 8002
-      - key: RABBITMQ_URL
-        value: amqp://rabbitmq:5672
+        value: 3000
 
   - type: web
     name: flight_search
@@ -47,4 +45,4 @@ services:
     dockerfilePath: ./flight-Search/Dockerfile
     envVars:
       - key: PORT
-        value: 8003
+        value: 3001
