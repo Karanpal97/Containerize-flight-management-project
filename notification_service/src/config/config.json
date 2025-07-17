@@ -1,0 +1,9 @@
+{
+  "development": {
+    "username": "usk3jz0hlxkoligb",
+    "password": "EtNJoLrIcVxVrrRIyC3K",
+    "database": "bvshhz5at578heiw0pck",
+    "host": "bvshhz5at578heiw0pck-mysql.services.clever-cloud.com",
+    "dialect": "mysql"
+  }
+}
