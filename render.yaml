@@ -7,15 +7,6 @@ services:
     autoDeploy: true
     dockerContext: ./Auth_service
     dockerfilePath: ./Auth_service/Dockerfile
-    envVars:
-      - key: PORT
-      - key: JWT_SECRET_KEY
-      - key: EXPIRES_IN
-      - key: NODE_ENV
-      - key: DB_HOST
-      - key: DB_USER
-      - key: DB_PASSWORD
-      - key: DB_NAME
 
   - type: web
     name: booking_service
@@ -25,16 +16,6 @@ services:
     autoDeploy: true
     dockerContext: ./Booking-Service
     dockerfilePath: ./Booking-Service/Dockerfile
-    envVars:
-      - key: PORT
-      - key: FLIGHT_SERVICE
-      - key: USER_SERVICE
-      - key: RABBIT_MQ_SERVICE
-      - key: NODE_ENV
-      - key: DB_HOST
-      - key: DB_USER
-      - key: DB_PASSWORD
-      - key: DB_NAME
 
   - type: web
     name: delivery_service
@@ -44,17 +25,6 @@ services:
     autoDeploy: true
     dockerContext: ./notification_service
     dockerfilePath: ./notification_service/Dockerfile
-    envVars:
-      - key: PORT
-      - key: GMAIL_PASSWORD
-      - key: GMAIL_EMAIL
-      - key: RABBIT_MQ_SERVICE
-      - key: DB_HOST
-      - key: DB_USER
-      - key: DB_PASSWORD
-      - key: DB_NAME
-      - key: NODE_ENV
-
 
   - type: web
     name: flight_search
@@ -64,13 +34,6 @@ services:
     autoDeploy: true
     dockerContext: ./flight-Search
     dockerfilePath: ./flight-Search/Dockerfile
-    envVars:
-      - key: PORT
-      - key: DB_HOST
-      - key: DB_USER
-      - key: DB_PASSWORD
-      - key: DB_NAME
-      - key: NODE_ENV
 
   - type: web
     name: docs
