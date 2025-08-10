@@ -6,8 +6,8 @@ WORKDIR /app
 # Install dependencies
 RUN npm init -y && npm install express swagger-ui-express js-yaml
 
-# Copy OpenAPI spec
-COPY ../openapi.yaml /app/openapi.yaml
+# Copy OpenAPI spec from project root (build context is now ".")
+COPY openapi.yaml /app/openapi.yaml
 
 # Create server
 COPY <<'EOF' /app/server.js
