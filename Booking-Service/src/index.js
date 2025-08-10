@@ -5,8 +5,11 @@ const amqplib=require("amqplib");
 const { ServerConfig,queue } = require('./config');
 const apiRoutes = require('./routes');
 const {Crons}=require('./utils/common')
+const cors = require('cors');
 
 const app = express();
+app.use(cors());
+app.options('*', cors());
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}))

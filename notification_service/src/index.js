@@ -5,6 +5,7 @@ const { ServerConfig } = require('./config');
 const apiRoutes = require('./routes');
 const mailSender=require('./config/email config');
 const { Ticket_service } = require('./services');
+const cors = require('cors');
 
 async function connectQueue(){
 try {
@@ -300,6 +301,8 @@ try {
 }
 
 const app = express();
+app.use(cors());
+app.options('*', cors());
 app.use(express.json());
 app.use(express.urlencoded({extended:true})) 
 

@@ -1,0 +1,647 @@
+openapi: 3.0.3
+info:
+  title: KaranFlight APIs (Combined Swagger)
+  version: 1.0.2
+  description: |
+    Unified API documentation for all microservices: Auth, Flight Search, Booking, and Notification.
+    Uses server variables for dynamic base URLs across environments (localhost, Render, Vercel, etc.).
+
+servers:
+  - url: {authBase}
+    description: Auth Service
+    variables:
+      authBase:
+        default: http://localhost:3006
+        description: Full base URL including scheme
+  - url: {flightBase}
+    description: Flight Search Service
+    variables:
+      flightBase:
+        default: http://localhost:3001
+        description: Full base URL including scheme
+  - url: {bookingBase}
+    description: Booking Service
+    variables:
+      bookingBase:
+        default: http://localhost:4000
+        description: Full base URL including scheme
+  - url: {notificationBase}
+    description: Notification Service
+    variables:
+      notificationBase:
+        default: http://localhost:3000
+        description: Full base URL including scheme
+
+tags:
+  - name: Auth
+    description: Authentication and user management
+  - name: Flight Search
+    description: Manage airplanes, airports, cities, and flights
+  - name: Booking
+    description: Bookings and payments
+  - name: Notification
+    description: Ticket and email notifications
+
+paths:
+  /api/v1/info:
+    get:
+      summary: Service health/info
+      description: Returns a simple liveness response for each service. Choose the appropriate server in the top-right server selector.
+      tags: [Auth, Flight Search, Booking, Notification]
+      responses:
+        '200':
+          description: Service is live
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+
+  # ========== Auth Service ==========
+  /api/v1/user:
+    get:
+      summary: List users
+      tags: [Auth]
+      responses:
+        '201':
+          description: Users fetched
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/user/signup:
+    post:
+      summary: Sign up
+      tags: [Auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthSignupRequest'
+      responses:
+        '201':
+          description: User created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/user/signin:
+    post:
+      summary: Sign in
+      tags: [Auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthSigninRequest'
+      responses:
+        '201':
+          description: Signed in
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/user/role:
+    post:
+      summary: Add role to user (Admin only)
+      tags: [Auth]
+      security:
+        - xAccessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddRoleRequest'
+      responses:
+        '201':
+          description: Role added
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  # ========== Flight Search Service ==========
+  /api/v1/airplanes:
+    get:
+      summary: List airplanes
+      tags: [Flight Search]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+    post:
+      summary: Create airplane
+      tags: [Flight Search]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AirplaneCreateRequest'
+      responses:
+        '200':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/airplanes/{id}:
+    get:
+      summary: Get airplane by id
+      tags: [Flight Search]
+      parameters:
+        - $ref: '#/components/parameters/PathId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+    delete:
+      summary: Delete airplane
+      tags: [Flight Search]
+      parameters:
+        - $ref: '#/components/parameters/PathId'
+      responses:
+        '200':
+          description: Deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+    patch:
+      summary: Update airplane
+      tags: [Flight Search]
+      parameters:
+        - $ref: '#/components/parameters/PathId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+
+  /api/v1/airports:
+    get:
+      summary: List airports
+      tags: [Flight Search]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+    post:
+      summary: Create airport
+      tags: [Flight Search]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AirportCreateRequest'
+      responses:
+        '200':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/airports/{id}:
+    get:
+      summary: Get airport by id
+      tags: [Flight Search]
+      parameters:
+        - $ref: '#/components/parameters/PathId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+    delete:
+      summary: Delete airport
+      tags: [Flight Search]
+      parameters:
+        - $ref: '#/components/parameters/PathId'
+      responses:
+        '200':
+          description: Deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+    patch:
+      summary: Update airport
+      tags: [Flight Search]
+      parameters:
+        - $ref: '#/components/parameters/PathId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+
+  /api/v1/cities:
+    post:
+      summary: Create city
+      tags: [Flight Search]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+              description: City payload (service defines exact fields)
+      responses:
+        '200':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+
+  /api/v1/flights:
+    get:
+      summary: List flights
+      tags: [Flight Search]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+    post:
+      summary: Create flight
+      tags: [Flight Search]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FlightCreateRequest'
+      responses:
+        '200':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/flights/{id}:
+    get:
+      summary: Get flight by id
+      tags: [Flight Search]
+      parameters:
+        - $ref: '#/components/parameters/PathId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+
+  /api/v1/flights/{id}/seats:
+    patch:
+      summary: Update seats for a flight
+      tags: [Flight Search]
+      parameters:
+        - $ref: '#/components/parameters/PathId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FlightSeatsUpdateRequest'
+      responses:
+        '200':
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  # ========== Booking Service ==========
+  /api/v1/bookings:
+    post:
+      summary: Create booking
+      tags: [Booking]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookingCreateRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/bookings/payments:
+    post:
+      summary: Make payment for a booking
+      tags: [Booking]
+      parameters:
+        - in: header
+          name: x-idempotency-key
+          required: true
+          schema:
+            type: string
+          description: Required idempotency key to prevent double-charging
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MakePaymentRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: Bad Request (missing or duplicate idempotency key)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  # ========== Notification Service ==========
+  /api/v1/ticket:
+    post:
+      summary: Create notification ticket
+      tags: [Notification]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TicketCreateRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  securitySchemes:
+    xAccessToken:
+      type: apiKey
+      in: header
+      name: x-access-token
+
+  parameters:
+    PathId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+
+  schemas:
+    SuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: OK
+        data:
+          type: object
+        error:
+          type: object
+      additionalProperties: true
+
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+          example: Error
+        error:
+          type: object
+      additionalProperties: true
+
+    AuthSignupRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+
+    AuthSigninRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+
+    AddRoleRequest:
+      type: object
+      required: [id, role]
+      properties:
+        id:
+          type: integer
+        role:
+          type: string
+
+    AirplaneCreateRequest:
+      type: object
+      required: [modelName]
+      properties:
+        modelName:
+          type: string
+
+    AirportCreateRequest:
+      type: object
+      required: [Name, code, cityId]
+      properties:
+        Name:
+          type: string
+        code:
+          type: string
+        cityId:
+          type: integer
+
+    FlightCreateRequest:
+      type: object
+      required: [flightNumber, airplaneId, departureAirportId, arrivalAirportId, arrivalTime, departureTime, price, totalSeats]
+      properties:
+        flightNumber:
+          type: string
+        airplaneId:
+          type: integer
+        departureAirportId:
+          type: integer
+        arrivalAirportId:
+          type: integer
+        arrivalTime:
+          type: string
+          format: date-time
+        departureTime:
+          type: string
+          format: date-time
+        price:
+          type: number
+        totalSeats:
+          type: integer
+
+    FlightSeatsUpdateRequest:
+      type: object
+      required: [seats]
+      properties:
+        seats:
+          type: integer
+
+    BookingCreateRequest:
+      type: object
+      required: [flightId, userId, noOfSeats]
+      properties:
+        flightId:
+          type: integer
+        userId:
+          type: integer
+        noOfSeats:
+          type: integer
+
+    MakePaymentRequest:
+      type: object
+      required: [totalCost, userId, bookingId]
+      properties:
+        totalCost:
+          type: number
+        userId:
+          type: integer
+        bookingId:
+          type: integer
+
+    TicketCreateRequest:
+      type: object
+      required: [subject, content, receipentEmail]
+      properties:
+        subject:
+          type: string
+        content:
+          type: string
+        receipentEmail:
+          type: string
+          format: email

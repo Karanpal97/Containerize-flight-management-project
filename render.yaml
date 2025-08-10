@@ -71,3 +71,12 @@ services:
       - key: DB_PASSWORD
       - key: DB_NAME
       - key: NODE_ENV
+
+  - type: web
+    name: docs
+    env: docker
+    plan: free
+    region: oregon
+    autoDeploy: true
+    dockerContext: ./docs
+    dockerfilePath: ./docs/Dockerfile

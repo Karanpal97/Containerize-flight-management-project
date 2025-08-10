@@ -2,9 +2,12 @@ const express=require('express');
 const apiRoutes=require('./routes')
 const {ServerConfig} =require('./config');
 const airports = require('./models/airports');
+const cors = require('cors');
 
 
 const app=express();
+app.use(cors());
+app.options('*', cors());
 
 
 app.use(express.json());
