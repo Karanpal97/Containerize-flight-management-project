@@ -1,31 +1,31 @@
 openapi: 3.0.3
 info:
   title: KaranFlight APIs (Combined Swagger)
-  version: 1.0.2
+  version: 1.0.3
   description: |
     Unified API documentation for all microservices: Auth, Flight Search, Booking, and Notification.
     Uses server variables for dynamic base URLs across environments (localhost, Render, Vercel, etc.).
 
 servers:
-  - url: {authBase}
+  - url: "{authBase}"
     description: Auth Service
     variables:
       authBase:
         default: http://localhost:3006
         description: Full base URL including scheme
-  - url: {flightBase}
+  - url: "{flightBase}"
     description: Flight Search Service
     variables:
       flightBase:
         default: http://localhost:3001
         description: Full base URL including scheme
-  - url: {bookingBase}
+  - url: "{bookingBase}"
     description: Booking Service
     variables:
       bookingBase:
         default: http://localhost:4000
         description: Full base URL including scheme
-  - url: {notificationBase}
+  - url: "{notificationBase}"
     description: Notification Service
     variables:
       notificationBase:

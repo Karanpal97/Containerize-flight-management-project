@@ -10,8 +10,19 @@ const config = require(__dirname + '/../config/config.json')[env];
 const db = {};
 
 let sequelize;
-if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
+if (config.use_env_variable && process.env[config.use_env_variable]) {
+  const isProd = env === 'production';
+  const baseOptions = { ...config };
+  // For hosted MySQL on Render, SSL may be required or recommended
+  if (isProd) {
+    baseOptions.dialectOptions = baseOptions.dialectOptions || {};
+    baseOptions.dialectOptions.ssl = baseOptions.dialectOptions.ssl || {
+      require: false,
+      rejectUnauthorized: false,
+    };
+    baseOptions.logging = false;
+  }
+  sequelize = new Sequelize(process.env[config.use_env_variable], baseOptions);
 } else {
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 }

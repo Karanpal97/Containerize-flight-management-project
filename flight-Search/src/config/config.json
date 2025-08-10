@@ -5,5 +5,9 @@
     "database": "bdychmay1yhxjqoqm9ga",
     "host": "bdychmay1yhxjqoqm9ga-mysql.services.clever-cloud.com",
     "dialect": "mysql"
+  },
+  "production": {
+    "use_env_variable": "DATABASE_URL",
+    "dialect": "mysql"
   }
 }
