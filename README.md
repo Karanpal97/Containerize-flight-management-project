@@ -1,4 +1,4 @@
-# KaranFlight – Microservices Flight Platform
+#  Microservices Flight Platform
 
 A production-style flight booking system built with Node.js, Express, MySQL (via Sequelize), RabbitMQ, and OpenAPI. The system is decomposed into services for Authentication, Flight Search & Inventory, Booking & Payments, Notifications (email), and API Documentation.
 
@@ -218,6 +218,3 @@ curl -X POST 'http://localhost:3000/api/v1/ticket' \
 - CORS errors in Swagger usually mean the response didn’t come from the Express service; confirm the URL is correct
 - Render 500s with MySQL typically stem from DB config; ensure `DATABASE_URL` and `NODE_ENV=production` are set for `flight_search`
 - Docs image build error about `openapi.yaml` path is fixed by building docs from repo root (see `render.yaml` and `docs/Dockerfile`)
-
-## License
-This project is for educational purposes. Adjust and extend for production needs (observability, retries, circuit breakers, migrations, schema versioning, etc.).
