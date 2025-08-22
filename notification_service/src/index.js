@@ -10,6 +10,7 @@ const cors = require('cors');
 async function connectQueue(){
 try {
     const connection = await amqplib.connect(process.env.RABBIT_MQ_SERVICE);
+    console.log("the service is ",process.env.RABBIT_MQ_SERVICE);
     const channel = await connection.createChannel();
     await channel.assertQueue('noti-queue');
     

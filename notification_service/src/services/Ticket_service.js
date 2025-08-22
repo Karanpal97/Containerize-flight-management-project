@@ -3,22 +3,21 @@ const {TicketRepository}=require('../repositories')
 const {MAILER}=require('../config')
 const Ticketrepo=  new TicketRepository();
 
- async function sendEmail(mailFrom,mailTo,subject,text){
-   try{
-      const response=await MAILER.sendMail({
-         from:mailFrom,
-         to:mailTo,
-         subject:subject,
-         text:text,
-         
-      }
-      );
-      return response
-   }
-   catch(error){
-      console.log(error);
-      throw error;
- }}
+async function sendEmail(mailFrom, mailTo, subject, text) {
+  try {
+    const response = await MAILER.sendMail({
+      from: mailFrom,
+      to: mailTo,
+      subject: subject,
+      text: text,
+    });
+    return response;
+  } catch (error) {
+    console.error("Email send failed:", error.message);
+    return null; // fail gracefully, don’t crash app
+  }
+}
+
 
  async function createTicket(data){
 try{  
