@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: KaranFlight APIs (Combined Swagger)
+  title: Flight APIs (Combined Swagger)
   version: 1.0.3
   description: |
     Unified API documentation for all microservices: Auth, Flight Search, Booking, and Notification.
