@@ -243,6 +243,8 @@ paths:
     post:
       summary: Create airport
       tags: [Flight Search]
+      security:
+      - xAccessToken: [] 
       requestBody:
         required: true
         content:

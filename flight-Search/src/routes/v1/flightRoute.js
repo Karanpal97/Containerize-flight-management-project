@@ -5,7 +5,7 @@ const {FlightController}=require("../../controllers");
 const router=express.Router();
 
 
-router.post('/',
+router.post('/',FlightMiddlewares.verifyAdmin,
             FlightMiddlewares.validCreateRequest,
            FlightController.createFlight);
  
