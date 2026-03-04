@@ -11,25 +11,25 @@ servers:
     description: Auth Service
     variables:
       authBase:
-        default: http://localhost:3006
+        default: https://auth-service-vcss.onrender.com
         description: Full base URL including scheme
   - url: "{flightBase}"
     description: Flight Search Service
     variables:
       flightBase:
-        default: http://localhost:3001
+        default: https://flight-search-fzzp.onrender.com
         description: Full base URL including scheme
   - url: "{bookingBase}"
     description: Booking Service
     variables:
       bookingBase:
-        default: http://localhost:4000
+        default: https://booking-service-hx4t.onrender.com
         description: Full base URL including scheme
   - url: "{notificationBase}"
     description: Notification Service
     variables:
       notificationBase:
-        default: http://localhost:3000
+        default: https://delivery-service-hpwy.onrender.com
         description: Full base URL including scheme
 
 tags:
