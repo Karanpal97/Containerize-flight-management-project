@@ -342,6 +342,48 @@ paths:
     get:
       summary: List flights
       tags: [Flight Search]
+      parameters:
+        - name: trips
+          in: query
+          required: false
+          description: Departure and arrival airport IDs (example DEL-BLR)
+          schema:
+            type: string
+            example: DEL-BLR
+
+        - name: price
+          in: query
+          required: false
+          description: Price range (min-max)
+          schema:
+            type: string
+            example: 2000-5000
+
+        - name: travellers
+          in: query
+          required: false
+          description: Minimum seats required
+          schema:
+            type: integer
+            example: 2
+
+        - name: tripDate
+          in: query
+          required: false
+          description: Flight departure date
+          schema:
+            type: string
+            format: date
+            example: 2026-03-20
+
+        - name: sort
+          in: query
+          required: false
+          description: Sort results (field_order)
+          schema:
+            type: string
+            example: price_ASC
+
       responses:
         '200':
           description: OK
