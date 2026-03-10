@@ -1,4 +1,4 @@
-FROM node
+FROM node:20
 
 WORKDIR /developer/nodejs/authservice
 
